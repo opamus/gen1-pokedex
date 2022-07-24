@@ -2,7 +2,7 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 
 const App = () => {
-  const [allPokemons, setAllPokemons] = useState([]);
+  const [allPokemon, setAllPokemon] = useState([]);
   const pokemonCount = 151;
   const url = `https://pokeapi.co/api/v2/pokemon/?limit=${pokemonCount}`;
 
@@ -14,7 +14,7 @@ const App = () => {
       result.forEach(async (_pokemon, i) => {
         const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`);
         const data = await res.json();
-        setAllPokemons((currentList) => [...currentList, data]);
+        setAllPokemon((currentList) => [...currentList, data]);
       });
     };
 
@@ -25,9 +25,9 @@ const App = () => {
     getAllPokemon();
   }, []);
 
-  allPokemons.sort((a, b) => a.id - b.id);
-  const pokemonNames = allPokemons.map((poke, i) => {
-    const type = poke.types[0].type.name;
+  allPokemon.sort((a, b) => a.id - b.id);
+  const pokemonNames = allPokemon.map((poke, i) => {
+    const mainType = poke.types[0].type.name;
     const colorMap = {
       grass: "#a7de9b",
       bug: "#a7de9b",
@@ -48,11 +48,11 @@ const App = () => {
       return colorMap[arg] || "#e3e6e4";
     };
     const theme =
-      type === "rock" ||
-      type === "psychic" ||
-      type === "ground" ||
-      type === "poison" ||
-      type === "ghost"
+      mainType === "rock" ||
+      mainType === "psychic" ||
+      mainType === "ground" ||
+      mainType === "poison" ||
+      mainType === "ghost"
         ? "#ededed"
         : "#1c1c1c";
 
@@ -61,7 +61,7 @@ const App = () => {
         <div
           className="Border"
           style={{
-            backgroundColor: color(type),
+            backgroundColor: color(mainType),
           }}
         >
           <h2 className="Title">{poke.name}</h2>
