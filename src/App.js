@@ -3,10 +3,12 @@ import React, { useEffect, useState } from "react";
 
 const App = () => {
   const [allPokemon, setAllPokemon] = useState([]);
+  const [loading, setLoading] = useState(true);
   const pokemonCount = 151;
   const url = `https://pokeapi.co/api/v2/pokemon/?limit=${pokemonCount}`;
 
   const getAllPokemon = async () => {
+    setLoading(true);
     const res = await fetch(url);
     const data = await res.json();
 
@@ -19,6 +21,7 @@ const App = () => {
     };
 
     createPokemonObject(data.results);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -81,6 +84,10 @@ const App = () => {
       </div>
     );
   });
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="App">
