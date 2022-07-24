@@ -65,15 +65,17 @@ const App = () => {
           }}
         >
           <h2 className="Title">
-            {String(poke.name).charAt(0).toUpperCase() + poke.name.slice(1)}
+            {poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}
           </h2>
           <img
             src={poke?.sprites?.front_default}
             alt={poke?.name}
             className="Avatar"
           />
-          {poke.types.map((type) => (
-            <h4 className="Type">{type.type.name}</h4>
+          {poke.types.map((type, i) => (
+            <h4 key={i} className="Type">
+              {type.type.name}
+            </h4>
           ))}
 
           <h3 className="PokeId">{poke?.id}</h3>
