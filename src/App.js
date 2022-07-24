@@ -64,9 +64,7 @@ const App = () => {
             backgroundColor: color(type),
           }}
         >
-          <h2 className="Title">
-            {poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}
-          </h2>
+          <h2 className="Title">{poke.name}</h2>
           <img
             src={poke?.sprites?.front_default}
             alt={poke?.name}
