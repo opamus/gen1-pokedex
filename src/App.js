@@ -26,6 +26,8 @@ const App = () => {
     getAllPokemon();
   }, []);
 
+  // console.log(allPokemons);
+
   allPokemons.sort((a, b) => a.id - b.id);
   const pokemonNames = allPokemons.map((poke, i) => {
     const type = poke.types[0].type.name;
@@ -48,8 +50,18 @@ const App = () => {
     const color = (arg) => {
       return colorMap[arg] || "#e3e6e4";
     };
+    const theme =
+      type === "rock" ||
+      type === "psychic" ||
+      type === "ground" ||
+      type === "poison" ||
+      type === "ghost"
+        ? "#ededed"
+        : "#1c1c1c";
+
+    console.log(theme);
     return (
-      <div className="Pokemon" key={i}>
+      <div className="Pokemon" key={i} style={{ color: `${theme}` }}>
         <div
           className="Border"
           style={{
