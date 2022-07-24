@@ -7,6 +7,7 @@ body {
   flex-direction: column;
   width: 100%;
   align-items: center;
+  background-color: antiquewhite;
 }
 .Container {
   width: 100%;
@@ -21,8 +22,9 @@ body {
   width: 280px;
 }
 .Border {
-  border: 0.5rem solid lightblue;
+  position: relative;
   border-radius: 0.5rem;
+  padding: 1rem;
 }
 .MainTitle {
   font-size: 4rem;
@@ -34,9 +36,12 @@ body {
   font-weight: 500;
 }
 .PokeId {
+  position: absolute;
+  left: 1rem;
+  top: 0;
   padding-bottom: 1rem;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 800;
 }
 .Avatar {
   height: 8rem;

@@ -52,7 +52,9 @@ const App = () => {
       <div className="Pokemon" key={i}>
         <div
           className="Border"
-          style={{ border: `0.5rem solid ${color(type)}` }}
+          style={{
+            backgroundColor: color(type),
+          }}
         >
           <h2 className="Title">
             {String(poke.name).charAt(0).toUpperCase() + poke.name.slice(1)}
@@ -63,7 +65,7 @@ const App = () => {
             className="Avatar"
           />
           <h3 className="Type">{`Type: ${poke?.types[0].type.name}`}</h3>
-          <h3 className="PokeId">{`ID: ${poke?.id}`}</h3>
+          <h3 className="PokeId">{poke?.id}</h3>
         </div>
       </div>
     );
@@ -71,7 +73,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1 className="MainTitle">1st Gen pokemon</h1>
+      <h1 className="MainTitle">1st Gen Pokémon</h1>
       <div className="Container">{pokemonNames}</div>
     </div>
   );
