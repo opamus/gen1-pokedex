@@ -21,12 +21,9 @@ const App = () => {
     createPokemonObject(data.results);
   };
 
-  // console.log(allPokemons);
   useEffect(() => {
     getAllPokemon();
   }, []);
-
-  // console.log(allPokemons);
 
   allPokemons.sort((a, b) => a.id - b.id);
   const pokemonNames = allPokemons.map((poke, i) => {
@@ -59,7 +56,6 @@ const App = () => {
         ? "#ededed"
         : "#1c1c1c";
 
-    console.log(theme);
     return (
       <div className="Pokemon" key={i} style={{ color: `${theme}` }}>
         <div
@@ -76,7 +72,10 @@ const App = () => {
             alt={poke?.name}
             className="Avatar"
           />
-          <h3 className="Type">{`Type: ${poke?.types[0].type.name}`}</h3>
+          {poke.types.map((type) => (
+            <h4 className="Type">{type.type.name}</h4>
+          ))}
+
           <h3 className="PokeId">{poke?.id}</h3>
         </div>
       </div>
