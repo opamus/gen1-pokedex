@@ -4,27 +4,27 @@ import React, { useEffect, useState } from "react";
 const App = () => {
   const [allPokemon, setAllPokemon] = useState([]);
   const [loading, setLoading] = useState(true);
-  const pokemonCount = 151;
-  const url = `https://pokeapi.co/api/v2/pokemon/?limit=${pokemonCount}`;
-
-  const getAllPokemon = async () => {
-    setLoading(true);
-    const res = await fetch(url);
-    const data = await res.json();
-
-    const createPokemonObject = (result) => {
-      result.forEach(async (_pokemon, i) => {
-        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`);
-        const data = await res.json();
-        setAllPokemon((currentList) => [...currentList, data]);
-      });
-    };
-
-    createPokemonObject(data.results);
-    setLoading(false);
-  };
+  const [region, setRegion] = useState("Kanto");
+  const kantoCount = 151;
 
   useEffect(() => {
+    const getAllPokemon = async () => {
+      const url = `https://pokeapi.co/api/v2/pokemon/?limit=${kantoCount}`;
+      setLoading(true);
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const createPokemonObject = (result) => {
+        result.forEach(async (_pokemon, i) => {
+          const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`);
+          const data = await res.json();
+          setAllPokemon((arr) => [...arr, data]);
+        });
+      };
+
+      createPokemonObject(data.results);
+      setLoading(false);
+    };
     getAllPokemon();
   }, []);
 
@@ -89,9 +89,19 @@ const App = () => {
     return <div>Loading...</div>;
   }
 
+  const radioButtons = (
+    <div style={{ marginTop: "1rem" }}>
+      <button onClick={() => setRegion("Kanto")}>Kanto</button>
+      <button onClick={() => setRegion("Johto")}>Johto</button>
+      <button onClick={() => setRegion("Hoenn")}>Hoenn</button>
+      <button onClick={() => setRegion("Sinnoh")}>Sinnoh</button>
+    </div>
+  );
+
   return (
     <div className="App">
-      <h1 className="MainTitle">1st Gen Pokémon</h1>
+      <div>{radioButtons}</div>
+      <h1 className="MainTitle">{region}</h1>
       <div className="Container">{pokemonNames}</div>
     </div>
   );
