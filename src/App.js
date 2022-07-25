@@ -5,18 +5,35 @@ const App = () => {
   const [allPokemon, setAllPokemon] = useState([]);
   const [loading, setLoading] = useState(true);
   const [region, setRegion] = useState("Kanto");
-  const kantoCount = 151;
 
   useEffect(() => {
     const getAllPokemon = async () => {
-      const url = `https://pokeapi.co/api/v2/pokemon/?limit=${kantoCount}`;
+      const kantoCount = 151;
+      const johtoCount = 100;
+      const hoennCount = 135;
+      const sinnohCount = 106;
+      const url =
+        region === "Kanto"
+          ? `https://pokeapi.co/api/v2/pokemon/?limit=${kantoCount}`
+          : region === "Johto"
+          ? `https://pokeapi.co/api/v2/pokemon/?limit=${johtoCount}&offset=${kantoCount}`
+          : region === "Hoenn"
+          ? `https://pokeapi.co/api/v2/pokemon/?limit=${hoennCount}&offset=${
+              kantoCount + johtoCount
+            }`
+          : `https://pokeapi.co/api/v2/pokemon/?limit=${sinnohCount}&offset=${
+              kantoCount + johtoCount + hoennCount
+            }`;
       setLoading(true);
       const res = await fetch(url);
       const data = await res.json();
 
       const createPokemonObject = (result) => {
-        result.forEach(async (_pokemon, i) => {
-          const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${i + 1}`);
+        result.forEach(async (pokemon) => {
+          // console.log(_pokemon);
+          const res = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/${pokemon.name}`
+          );
           const data = await res.json();
           setAllPokemon((arr) => [...arr, data]);
         });
@@ -26,7 +43,7 @@ const App = () => {
       setLoading(false);
     };
     getAllPokemon();
-  }, []);
+  }, [region]);
 
   allPokemon.sort((a, b) => a.id - b.id);
   const pokemonNames = allPokemon.map((poke, i) => {
@@ -89,20 +106,37 @@ const App = () => {
     return <div>Loading...</div>;
   }
 
-  const radioButtons = (
-    <div style={{ marginTop: "1rem" }}>
-      <button onClick={() => setRegion("Kanto")}>Kanto</button>
-      <button onClick={() => setRegion("Johto")}>Johto</button>
-      <button onClick={() => setRegion("Hoenn")}>Hoenn</button>
-      <button onClick={() => setRegion("Sinnoh")}>Sinnoh</button>
-    </div>
-  );
+  // const radioButtons = (
+  //   <div style={{ marginTop: "1rem" }}>
+  //     <button onClick={() => setRegion("Kanto")}>Kanto</button>
+  //     <button onClick={() => setRegion("Johto")}>Johto</button>
+  //     <button onClick={() => setRegion("Hoenn")}>Hoenn</button>
+  //     <button onClick={() => setRegion("Sinnoh")}>Sinnoh</button>
+  //   </div>
+  // );
 
   return (
     <div className="App">
-      <div>{radioButtons}</div>
-      <h1 className="MainTitle">{region}</h1>
+      {/* <div>{radioButtons}</div> */}
+      <h1 className="MainTitle">Pokémon</h1>
       <div className="Container">{pokemonNames}</div>
+      {region === "Kanto" && (
+        <div style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+          <button onClick={() => setRegion("Johto")}>See Johto Pokémon</button>
+        </div>
+      )}
+      {region === "Johto" && (
+        <div style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+          <button onClick={() => setRegion("Hoenn")}>See Hoenn Pokémon</button>
+        </div>
+      )}
+      {region === "Hoenn" && (
+        <div style={{ marginTop: "2rem", marginBottom: "2rem" }}>
+          <button onClick={() => setRegion("Sinnoh")}>
+            See Sinnoh Pokémon
+          </button>
+        </div>
+      )}
     </div>
   );
 };
